@@ -1,0 +1,917 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NumPy Learning Guide - Student Edition</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.7;
+            color: #333;
+            background: #f8f9fa;
+            font-size: 16px;
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                font-size: 14px;
+            }
+        }
+        
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        
+        @media (max-width: 768px) {
+            header {
+                padding: 30px 15px;
+            }
+        }
+        
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+        
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.8em;
+            }
+        }
+        
+        header p {
+            font-size: 1em;
+            opacity: 0.95;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 12px;
+            }
+        }
+        
+        nav {
+            background: white;
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            z-index: 100;
+            overflow-x: auto;
+        }
+        
+        nav ul {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            list-style: none;
+            justify-content: center;
+            padding: 0 10px;
+        }
+        
+        @media (max-width: 768px) {
+            nav ul {
+                gap: 8px;
+                padding: 0 5px;
+            }
+        }
+        
+        nav a {
+            text-decoration: none;
+            color: #667eea;
+            font-weight: 500;
+            transition: color 0.3s;
+            white-space: nowrap;
+            font-size: 0.95em;
+        }
+        
+        nav a:hover {
+            color: #764ba2;
+        }
+        
+        section {
+            background: white;
+            margin: 20px 0;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+        
+        @media (max-width: 768px) {
+            section {
+                margin: 15px 0;
+                padding: 20px;
+            }
+        }
+        
+        section h2 {
+            color: #667eea;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #764ba2;
+        }
+        
+        @media (max-width: 768px) {
+            section h2 {
+                font-size: 1.4em;
+                margin-bottom: 15px;
+            }
+        }
+        
+        section h3 {
+            color: #764ba2;
+            font-size: 1.2em;
+            margin-top: 20px;
+            margin-bottom: 12px;
+        }
+        
+        @media (max-width: 768px) {
+            section h3 {
+                font-size: 1.05em;
+            }
+        }
+        
+        p {
+            margin-bottom: 15px;
+            text-align: left;
+            line-height: 1.8;
+        }
+        
+        code {
+            background: #f5f5f5;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            color: #d63384;
+            font-size: 0.9em;
+        }
+        
+        pre {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 15px;
+            border-radius: 6px;
+            overflow-x: auto;
+            margin: 15px 0;
+            border-left: 4px solid #667eea;
+            line-height: 1.5;
+            font-size: 0.85em;
+        }
+        
+        @media (max-width: 768px) {
+            pre {
+                padding: 12px;
+                font-size: 0.8em;
+                margin: 12px 0;
+            }
+        }
+        
+        pre code {
+            background: none;
+            padding: 0;
+            color: #d4d4d4;
+        }
+        
+        .keyword { color: #569cd6; }
+        .string { color: #ce9178; }
+        .number { color: #b5cea8; }
+        .function { color: #dcdcaa; }
+        .comment { color: #6a9955; }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: white;
+            font-size: 0.95em;
+            overflow-x: auto;
+            display: block;
+        }
+        
+        @media (max-width: 768px) {
+            table {
+                font-size: 0.85em;
+            }
+        }
+        
+        table th, table td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        @media (max-width: 480px) {
+            table th, table td {
+                padding: 8px;
+            }
+        }
+        
+        table th {
+            background: #f0f2f5;
+            color: #667eea;
+            font-weight: 600;
+        }
+        
+        table tr:hover {
+            background: #f8f9fa;
+        }
+        
+        .note {
+            background: #e8f4f8;
+            border-left: 4px solid #667eea;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        
+        @media (max-width: 768px) {
+            .note {
+                padding: 12px;
+                margin: 15px 0;
+            }
+        }
+        
+        .note strong {
+            color: #667eea;
+        }
+        
+        .mistake {
+            background: #fff3cd;
+            border-left: 4px solid #ff9800;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        
+        @media (max-width: 768px) {
+            .mistake {
+                padding: 12px;
+                margin: 15px 0;
+            }
+        }
+        
+        .mistake strong {
+            color: #ff6f00;
+        }
+        
+        .tip {
+            background: #e8f5e9;
+            border-left: 4px solid #4CAF50;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        
+        @media (max-width: 768px) {
+            .tip {
+                padding: 12px;
+                margin: 15px 0;
+            }
+        }
+        
+        .tip strong {
+            color: #2e7d32;
+        }
+        
+        ul, ol {
+            margin: 15px 0 15px 25px;
+        }
+        
+        @media (max-width: 768px) {
+            ul, ol {
+                margin: 12px 0 12px 20px;
+            }
+        }
+        
+        li {
+            margin-bottom: 10px;
+            line-height: 1.6;
+        }
+        
+        footer {
+            background: #333;
+            color: white;
+            text-align: center;
+            padding: 25px;
+            margin-top: 40px;
+            font-size: 0.95em;
+        }
+        
+        @media (max-width: 768px) {
+            footer {
+                padding: 20px;
+                font-size: 0.85em;
+            }
+        }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        @media (max-width: 768px) {
+            .grid {
+                grid-template-columns: 1fr;
+                gap: 12px;
+                margin: 15px 0;
+            }
+        }
+        
+        .card {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 6px;
+            border: 1px solid #e0e0e0;
+            border-left: 4px solid #667eea;
+        }
+        
+        .card h4 {
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+        
+        .card p {
+            font-size: 0.95em;
+            margin-bottom: 0;
+        }
+    </style>
+    </style>
+</head>
+<body>
+    <header>
+        <h1>📊 NumPy Learning Guide</h1>
+        <p>Your Quick Reference for Numerical Computing in Python</p>
+    </header>
+    
+    <nav class="container">
+        <ul>
+            <li><a href="#intro">What is NumPy?</a></li>
+            <li><a href="#install">Setup</a></li>
+            <li><a href="#arrays">Arrays</a></li>
+            <li><a href="#indexing">Slicing</a></li>
+            <li><a href="#operations">Operations</a></li>
+            <li><a href="#math">Math</a></li>
+            <li><a href="#stats">Stats</a></li>
+            <li><a href="#tips">Tips</a></li>
+        </ul>
+    </nav>
+    
+    <div class="container">
+        
+        <!-- Introduction -->
+        <section id="intro">
+            <h2>🎯 What is NumPy?</h2>
+            
+            <p><strong>NumPy</strong> is a Python library that makes working with numbers super easy and fast. Think of it as a superpower for doing math with huge amounts of data.</p>
+            
+            <div class="note">
+                <strong>💡 In Simple Words:</strong> If Python lists are cars, NumPy arrays are rockets! They do the same job but MUCH faster.
+            </div>
+            
+            <h3>Why Should You Learn NumPy?</h3>
+            <ul>
+                <li>✅ <strong>Speed:</strong> 10-100x faster than regular Python</li>
+                <li>✅ <strong>Easy Math:</strong> Do complex calculations with simple code</li>
+                <li>✅ <strong>Less Code:</strong> Write less, do more</li>
+                <li>✅ <strong>Everywhere:</strong> Every data scientist uses it</li>
+                <li>✅ <strong>Memory Smart:</strong> Doesn't waste your computer's memory</li>
+            </ul>
+            
+            <h3>Real-World Uses</h3>
+            <ul>
+                <li>📸 Image processing (editing photos)</li>
+                <li>📈 Data analysis (finding patterns)</li>
+                <li>🤖 Machine learning (AI stuff)</li>
+                <li>🎵 Audio processing (music, sound)</li>
+                <li>🧮 Scientific research (physics, chemistry)</li>
+            </ul>
+            
+            <div class="mistake">
+                <strong>⚠️ Common Mistake:</strong> Thinking NumPy is complicated. It's actually simpler than regular Python once you learn the basics!
+            </div>
+        </section>
+        
+        <!-- Installation -->
+        <section id="install">
+            <h2>⚙️ Getting Started</h2>
+            
+            <h3>Step 1: Install NumPy</h3>
+            <p>Open your terminal/command prompt and type:</p>
+            <pre><code>pip install numpy</code></pre>
+            
+            <div class="tip">
+                <strong>💻 Tip:</strong> This is a one-time setup. After this, you can use NumPy in any Python project!
+            </div>
+            
+            <h3>Step 2: Import NumPy</h3>
+            <p>In your Python file, add this at the top:</p>
+            <pre><code><span class="keyword">import</span> numpy <span class="keyword">as</span> np</code></pre>
+            
+            <div class="note">
+                <strong>📝 Remember:</strong> We use <code>as np</code> to make it shorter. Instead of writing <code>numpy.array()</code>, we write <code>np.array()</code>.
+            </div>
+            
+            <h3>Step 3: Check It Works</h3>
+            <pre><code><span class="keyword">import</span> numpy <span class="keyword">as</span> np
+<span class="keyword">print</span>(np.__version__)  <span class="comment"># Shows version number</span></code></pre>
+            
+            <div class="tip">
+                <strong>✅ Success:</strong> If you see a version number printed, you're ready to go!
+            </div>
+        </section>
+        
+        <!-- Arrays -->
+        <section id="arrays">
+            <h2>📦 Creating Arrays</h2>
+            
+            <p>An <strong>array</strong> is like a list on steroids. It holds multiple numbers in an organized way.</p>
+            
+            <h3>Making Your First Array</h3>
+            <pre><code><span class="keyword">import</span> numpy <span class="keyword">as</span> np
+
+<span class="comment"># From a Python list</span>
+my_array = np.array([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>])
+<span class="keyword">print</span>(my_array)  <span class="comment"># [1 2 3 4 5]</span>
+
+<span class="comment"># 2D array (like a table)</span>
+my_table = np.array([[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>],
+                     [<span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>]])
+<span class="keyword">print</span>(my_table)</code></pre>
+            
+            <h3>Quick Array Creation</h3>
+            <table>
+                <tr>
+                    <th>What You Want</th>
+                    <th>Code</th>
+                    <th>Result</th>
+                </tr>
+                <tr>
+                    <td>Zeros (all 0s)</td>
+                    <td><code>np.zeros(5)</code></td>
+                    <td>[0. 0. 0. 0. 0.]</td>
+                </tr>
+                <tr>
+                    <td>Ones (all 1s)</td>
+                    <td><code>np.ones(3)</code></td>
+                    <td>[1. 1. 1.]</td>
+                </tr>
+                <tr>
+                    <td>Range of numbers</td>
+                    <td><code>np.arange(0, 5)</code></td>
+                    <td>[0 1 2 3 4]</td>
+                </tr>
+                <tr>
+                    <td>5 numbers from 0-1</td>
+                    <td><code>np.linspace(0, 1, 5)</code></td>
+                    <td>[0.   0.25 0.5  0.75 1.  ]</td>
+                </tr>
+                <tr>
+                    <td>Random numbers</td>
+                    <td><code>np.random.rand(3)</code></td>
+                    <td>[0.2 0.8 0.5] (different each time)</td>
+                </tr>
+            </table>
+            
+            <div class="tip">
+                <strong>🎯 Tip:</strong> Use <code>np.zeros()</code> and <code>np.ones()</code> when you need to create an array first, then fill it later.
+            </div>
+            
+            <h3>Understanding Array Properties</h3>
+            <pre><code>arr = np.array([[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>],
+                [<span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>]])
+
+arr.shape   <span class="comment"># (2, 3) - 2 rows, 3 columns</span>
+arr.size    <span class="comment"># 6 - total number of elements</span>
+arr.dtype   <span class="comment"># int64 - type of data (int, float, etc)</span>
+arr.ndim    <span class="comment"># 2 - number of dimensions</span></code></pre>
+            
+            <div class="note">
+                <strong>📌 Remember:</strong> Shape is written as (rows, columns). Think of it like (height, width).
+            </div>
+        </section>
+        
+        <!-- Operations -->
+        <section id="operations">
+            <h2>⚡ Basic Math Operations</h2>
+            
+            <p>One of NumPy's best features: you can do math on ENTIRE arrays at once!</p>
+            
+            <h3>Simple Arithmetic</h3>
+            <pre><code>a = np.array([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>])
+b = np.array([<span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>])
+
+a + b      <span class="comment"># [5 7 9] - adds each element</span>
+a - b      <span class="comment"># [-3 -3 -3]</span>
+a * b      <span class="comment"># [4 10 18]</span>
+a / b      <span class="comment"># [0.25 0.4 0.5]</span>
+a ** <span class="number">2</span>     <span class="comment"># [1 4 9] - squares</span></code></pre>
+            
+            <div class="tip">
+                <strong>✨ Magic:</strong> These operations happen on ALL elements at the same time. Much faster than loops!
+            </div>
+            
+            <h3>Adding Numbers to Arrays</h3>
+            <pre><code>arr = np.array([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>])
+
+arr + <span class="number">5</span>    <span class="comment"># [6 7 8 9] - adds 5 to each</span>
+arr * <span class="number">2</span>    <span class="comment"># [2 4 6 8] - doubles each</span>
+arr / <span class="number">2</span>    <span class="comment"># [0.5 1. 1.5 2.]</span></code></pre>
+            
+            <h3>Reshaping Arrays (Changing Shape)</h3>
+            <pre><code>arr = np.array([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>])
+
+<span class="comment"># Change 1D array to 2D (2 rows, 3 columns)</span>
+new_arr = arr.reshape(<span class="number">2</span>, <span class="number">3</span>)
+<span class="comment"># [[1 2 3]
+#  [4 5 6]]</span>
+
+<span class="comment"># Flatten back to 1D</span>
+flat = new_arr.flatten()  <span class="comment"># [1 2 3 4 5 6]</span></code></pre>
+            
+            <div class="note">
+                <strong>📝 Pro Tip:</strong> When reshaping, the total number of elements must stay the same. Can't reshape 6 elements into (3, 3) - that's 9!
+            </div>
+        </section>
+        
+        <!-- Indexing & Slicing -->
+        <section id="indexing">
+            <h2>🔍 Getting Data Out (Indexing & Slicing)</h2>
+            
+            <p><strong>Indexing</strong> = picking ONE element from an array. <strong>Slicing</strong> = picking multiple elements.</p>
+            
+            <h3>Getting Single Elements</h3>
+            <pre><code>arr = np.array([<span class="number">10</span>, <span class="number">20</span>, <span class="number">30</span>, <span class="number">40</span>, <span class="number">50</span>])
+
+arr[<span class="number">0</span>]     <span class="comment"># First element: 10</span>
+arr[<span class="number">2</span>]     <span class="comment"># Third element: 30</span>
+arr[-<span class="number">1</span>]    <span class="comment"># Last element: 50</span>
+arr[-<span class="number">2</span>]    <span class="comment"># Second from last: 40</span></code></pre>
+            
+            <div class="note">
+                <strong>⚠️ Remember:</strong> Counting starts from 0! First element is at index 0, not 1.
+            </div>
+            
+            <h3>Getting Multiple Elements (Slicing)</h3>
+            <pre><code>arr = np.array([<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>])
+
+arr[<span class="number">1</span>:<span class="number">4</span>]       <span class="comment"># From index 1 to 3: [1 2 3]</span>
+arr[:<span class="number">3</span>]        <span class="comment"># First 3 elements: [0 1 2]</span>
+arr[<span class="number">3</span>:]        <span class="comment"># From index 3 to end: [3 4 5]</span>
+arr[::2]         <span class="comment"># Every 2nd element: [0 2 4]</span>
+arr[::-<span class="number">1</span>]      <span class="comment"># Reversed: [5 4 3 2 1 0]</span></code></pre>
+            
+            <div class="tip">
+                <strong>💡 Slice Format:</strong> <code>array[start:stop:step]</code> — Start is included, stop is NOT included.
+            </div>
+            
+            <h3>From 2D Arrays (Tables)</h3>
+            <pre><code>table = np.array([[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>],
+                  [<span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>],
+                  [<span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>]])
+
+table[<span class="number">0</span>]              <span class="comment"># First row: [1 2 3]</span>
+table[<span class="number">1</span>, <span class="number">2</span>]          <span class="comment"># Row 2, Column 3: 6</span>
+table[<span class="number">0</span>:<span class="number">2</span>, <span class="number">1</span>:<span class="number">3</span>]     <span class="comment"># Rows 1-2, Columns 2-3</span></code></pre>
+            
+            <h3>Picking Elements by Condition</h3>
+            <pre><code>arr = np.array([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>])
+
+<span class="comment"># Get all numbers greater than 2</span>
+arr[arr > <span class="number">2</span>]         <span class="comment"># [3 4 5]</span>
+
+<span class="comment"># Get all even numbers</span>
+arr[arr % <span class="number">2</span> == <span class="number">0</span>]   <span class="comment"># [2 4]</span></code></pre>
+            
+            <div class="mistake">
+                <strong>❌ Common Mistake:</strong> Writing <code>arr[1:4]</code> and expecting 4 elements. It gives you indices 1, 2, 3 (NOT 4)!
+            </div>
+        </section>
+        
+        <!-- Mathematical Operations -->
+        <section id="math">
+            <h2>🧮 Math Functions (Calculus Made Easy)</h2>
+            
+            <p>NumPy has built-in functions for almost every math operation you can think of!</p>
+            
+            <h3>Common Math Functions</h3>
+            <table>
+                <tr>
+                    <th>What You Want</th>
+                    <th>Code</th>
+                    <th>Example</th>
+                </tr>
+                <tr>
+                    <td>Square root</td>
+                    <td><code>np.sqrt()</code></td>
+                    <td><code>np.sqrt([1, 4, 9])</code> → [1. 2. 3.]</td>
+                </tr>
+                <tr>
+                    <td>Absolute value</td>
+                    <td><code>np.abs()</code></td>
+                    <td><code>np.abs([-1, -2, 3])</code> → [1 2 3]</td>
+                </tr>
+                <tr>
+                    <td>Exponential (e^x)</td>
+                    <td><code>np.exp()</code></td>
+                    <td><code>np.exp([0, 1])</code> → [1.0 2.718...]</td>
+                </tr>
+                <tr>
+                    <td>Natural log (ln)</td>
+                    <td><code>np.log()</code></td>
+                    <td><code>np.log([1, 2.718])</code> → [0. 1.]</td>
+                </tr>
+                <tr>
+                    <td>Sine</td>
+                    <td><code>np.sin()</code></td>
+                    <td><code>np.sin(np.pi/2)</code> → 1.0</td>
+                </tr>
+                <tr>
+                    <td>Cosine</td>
+                    <td><code>np.cos()</code></td>
+                    <td><code>np.cos(0)</code> → 1.0</td>
+                </tr>
+                <tr>
+                    <td>Round</td>
+                    <td><code>np.round()</code></td>
+                    <td><code>np.round([1.2, 2.7])</code> → [1. 3.]</td>
+                </tr>
+            </table>
+            
+            <h3>Examples</h3>
+            <pre><code><span class="comment"># Calculate with squares</span>
+arr = np.array([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>])
+np.sqrt(arr)       <span class="comment"># [1. 1.414 1.732 2.]</span>
+
+<span class="comment"># Work with angles</span>
+angles = np.array([<span class="number">0</span>, np.pi/<span class="number">2</span>, np.pi])
+np.sin(angles)     <span class="comment"># [0. 1. 0.]</span></code></pre>
+            
+            <div class="tip">
+                <strong>💡 Quick Ref:</strong> <code>np.pi</code> is π (3.14159...). Use it for math!
+            </div>
+        </section>
+        
+        <!-- Statistical Operations -->
+        <section id="stats">
+            <h2>📊 Statistics (Analyzing Data)</h2>
+            
+            <p>Get insights from your data with built-in statistical functions!</p>
+            
+            <h3>Basic Statistics</h3>
+            <table>
+                <tr>
+                    <th>What It Does</th>
+                    <th>Code</th>
+                    <th>Example</th>
+                </tr>
+                <tr>
+                    <td>Sum (total)</td>
+                    <td><code>np.sum()</code></td>
+                    <td><code>np.sum([1,2,3])</code> → 6</td>
+                </tr>
+                <tr>
+                    <td>Average</td>
+                    <td><code>np.mean()</code></td>
+                    <td><code>np.mean([1,2,3])</code> → 2.0</td>
+                </tr>
+                <tr>
+                    <td>Middle value</td>
+                    <td><code>np.median()</code></td>
+                    <td><code>np.median([1,2,3])</code> → 2.0</td>
+                </tr>
+                <tr>
+                    <td>Min & Max</td>
+                    <td><code>np.min(), np.max()</code></td>
+                    <td><code>np.min([1,2,3])</code> → 1</td>
+                </tr>
+                <tr>
+                    <td>Spread (std dev)</td>
+                    <td><code>np.std()</code></td>
+                    <td>How spread out the data is</td>
+                </tr>
+            </table>
+            
+            <h3>Example: Analyzing Test Scores</h3>
+            <pre><code><span class="comment"># Student test scores</span>
+scores = np.array([<span class="number">85</span>, <span class="number">90</span>, <span class="number">78</span>, <span class="number">92</span>, <span class="number">88</span>])
+
+<span class="keyword">print</span>(np.mean(scores))    <span class="comment"># Average: 86.6</span>
+<span class="keyword">print</span>(np.max(scores))     <span class="comment"># Highest: 92</span>
+<span class="keyword">print</span>(np.min(scores))     <span class="comment"># Lowest: 78</span>
+<span class="keyword">print</span>(np.std(scores))     <span class="comment"># Variation: 5.3</span></code></pre>
+            
+            <h3>Stats with 2D Arrays</h3>
+            <pre><code>data = np.array([[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>],
+                 [<span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>]])
+
+np.sum(data)           <span class="comment"># 21 (sum everything)</span>
+np.sum(data, axis=<span class="number">0</span>)  <span class="comment"># [5 7 9] (sum down columns)</span>
+np.sum(data, axis=<span class="number">1</span>)  <span class="comment"># [6 15] (sum across rows)</span></code></pre>
+            
+            <div class="note">
+                <strong>🎯 Tip:</strong> Use <code>axis=0</code> for columns, <code>axis=1</code> for rows.
+            </div>
+        </section>
+        
+        <!-- Broadcasting -->
+        <section id="broadcast">
+            <h2>Broadcasting</h2>
+            
+            <p>Broadcasting is NumPy's mechanism for performing operations on arrays of different shapes. It allows you to work with arrays of different sizes without explicitly creating larger arrays.</p>
+            
+            <h3>Broadcasting Rules</h3>
+            <ol>
+                <li>If arrays have different numbers of dimensions, pad the smaller one with ones</li>
+                <li>Arrays are compatible if, for each dimension, the sizes are equal or one of them is 1</li>
+                <li>The dimension with size 1 is stretched to match the other</li>
+            </ol>
+            
+            <h3>Examples</h3>
+            <pre><code>a = np.array([[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>],
+              [<span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>]])  <span class="comment"># Shape: (2, 3)</span>
+
+b = np.array([<span class="number">10</span>, <span class="number">20</span>, <span class="number">30</span>])    <span class="comment"># Shape: (3,)</span>
+
+c = a + b   <span class="comment"># b is broadcast to (2, 3)</span>
+<span class="comment"># Result: [[11 22 33], [14 25 36]]</span>
+
+d = np.array([[<span class="number">1</span>],
+              [<span class="number">2</span>]])          <span class="comment"># Shape: (2, 1)</span>
+
+e = a + d   <span class="comment"># d is broadcast to (2, 3)</span></code></pre>
+        </section>
+        
+        <!-- Best Practices -->
+        <section id="tips">
+            <h2>💡 Learning Tips & Tricks</h2>
+            
+            <h3>Think in Terms of Operations, Not Loops</h3>
+            <pre><code><span class="comment"># ❌ SLOW - Using a loop</span>
+result = []
+<span class="keyword">for</span> i <span class="keyword">in</span> range(len(arr)):
+    result.append(arr[i] * <span class="number">2</span>)
+
+<span class="comment"># ✅ FAST - Using NumPy (vectorization)</span>
+result = arr * <span class="number">2</span></code></pre>
+            
+            <div class="tip">
+                <strong>⚡ Key Concept:</strong> Always use array operations instead of loops. It's faster AND cleaner!
+            </div>
+            
+            <h3>Understanding Shapes</h3>
+            <pre><code><span class="comment"># 1D array</span>
+a = np.array([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>])
+<span class="keyword">print</span>(a.shape)  <span class="comment"># (3,)</span>
+
+<span class="comment"># 2D array</span>
+b = np.array([[<span class="number">1</span>, <span class="number">2</span>], [<span class="number">3</span>, <span class="number">4</span>]])
+<span class="keyword">print</span>(b.shape)  <span class="comment"># (2, 2)</span>
+
+<span class="comment"># When shapes don't match - reshape!</span>
+c = a.reshape(<span class="number">3</span>, <span class="number">1</span>)  <span class="comment"># Turn into column</span></code></pre>
+            
+            <h3>Common Mistakes to Avoid</h3>
+            <div class="mistake">
+                <strong>❌ Mistake 1: Mixing Data Types</strong>
+                <p><code>arr = np.array([1, "text", 3])</code> → Everything becomes text! Use correct types from start.</p>
+            </div>
+            
+            <div class="mistake">
+                <strong>❌ Mistake 2: Forgetting the Colon in Slices</strong>
+                <p><code>arr[1:3]</code> ✅ vs <code>arr[1.3]</code> ❌</p>
+            </div>
+            
+            <div class="mistake">
+                <strong>❌ Mistake 3: Off-by-One Errors</strong>
+                <p><code>arr[0:5]</code> gives elements 0,1,2,3,4 (NOT 5)!</p>
+            </div>
+            
+            <h3>Quick Debug Checklist</h3>
+            <pre><code><span class="comment"># Always check these when confused:</span>
+<span class="keyword">print</span>(arr.shape)      <span class="comment"># Is shape what you expect?</span>
+<span class="keyword">print</span>(arr.dtype)      <span class="comment"># Are data types correct?</span>
+<span class="keyword">print</span>(arr.size)       <span class="comment"># How many elements?</span>
+<span class="keyword">print</span>(arr[:<span class="number">3</span>])       <span class="comment"># See first few elements</span></code></pre>
+            
+            <div class="note">
+                <strong>🧠 Memory Tip:</strong> Print shape, dtype, and size when debugging. These three tell you most problems!
+            </div>
+        </section>
+        
+        <!-- Real Projects -->
+        <section id="use-cases">
+            <h2>🚀 Real-World Examples</h2>
+            
+            <h3>Example 1: Analyzing Quiz Scores</h3>
+            <pre><code><span class="comment"># Your quiz scores</span>
+scores = np.array([<span class="number">92</span>, <span class="number">88</span>, <span class="number">95</span>, <span class="number">87</span>, <span class="number">91</span>])
+
+<span class="keyword">print</span>(<span class="string">f"Average: {np.mean(scores):.2f}"</span>)    <span class="comment"># 90.6</span>
+<span class="keyword">print</span>(<span class="string">f"Variation: {np.std(scores):.2f}"</span>)   <span class="comment"># 2.97</span>
+<span class="keyword">print</span>(<span class="string">f"Best: {np.max(scores)}"</span>)            <span class="comment"># 95</span></code></pre>
+            
+            <h3>Example 2: Working with Prices</h3>
+            <pre><code><span class="comment"># Product prices</span>
+prices = np.array([<span class="number">10.5</span>, <span class="number">20.3</span>, <span class="number">15.8</span>])
+
+<span class="comment"># Apply 20% discount</span>
+discounted = prices * <span class="number">0.8</span>
+
+<span class="comment"># Calculate total</span>
+total = np.sum(discounted)</code></pre>
+            
+            <h3>Example 3: Temperature Analysis</h3>
+            <pre><code><span class="comment"># Weekly temperatures</span>
+temps = np.array([<span class="number">20</span>, <span class="number">22</span>, <span class="number">19</span>, <span class="number">25</span>, <span class="number">23</span>, <span class="number">21</span>, <span class="number">24</span>])
+
+<span class="comment"># Find days above average</span>
+avg_temp = np.mean(temps)
+hot_days = temps[temps > avg_temp]
+
+<span class="keyword">print</span>(<span class="string">f"Average: {avg_temp:.1f}"</span>)
+<span class="keyword">print</span>(<span class="string">f"Hot days: {len(hot_days)}"</span>)</code></pre>
+            
+            <div class="tip">
+                <strong>💪 Challenge:</strong> Try creating an array of your own data (grades, heights, distances) and find the average!
+            </div>
+        </section>
+        
+        <!-- Quick Reference Card -->
+        <section>
+            <h2>📌 Quick Reference Card</h2>
+            
+            <table>
+                <tr>
+                    <th>Task</th>
+                    <th>Code</th>
+                </tr>
+                <tr>
+                    <td>Create array</td>
+                    <td><code>np.array([1, 2, 3])</code></td>
+                </tr>
+                <tr>
+                    <td>Get element</td>
+                    <td><code>arr[0]</code></td>
+                </tr>
+                <tr>
+                    <td>Get multiple</td>
+                    <td><code>arr[1:3]</code></td>
+                </tr>
+                <tr>
+                    <td>Reverse</td>
+                    <td><code>arr[::-1]</code></td>
+                </tr>
+                <tr>
+                    <td>Math</td>
+                    <td><code>arr * 2</code>, <code>arr + 5</code></td>
+                </tr>
+                <tr>
+                    <td>Average</td>
+                    <td><code>np.mean(arr)</code></td>
+                </tr>
+                <tr>
+                    <td>Sum</td>
+                    <td><code>np.sum(arr)</code></td>
+                </tr>
+                <tr>
+                    <td>Max/Min</td>
+                    <td><code>np.max(arr)</code>, <code>np.min(arr)</code></td>
+                </tr>
+                <tr>
+                    <td>Reshape</td>
+                    <td><code>arr.reshape(2, 3)</code></td>
+                </tr>
+            </table>
+        </section>
+        
+    </div>
+    
+    <footer>
+        <p><strong>🎓 Remember:</strong> NumPy takes practice. Start small, experiment, and build from there!</p>
+        <p>&copy; 2024 NumPy Learning Guide for Students. Master Python data science! 🚀</p>
+    </footer>
+</body>
+</html>
